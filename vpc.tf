@@ -1,13 +1,9 @@
-provider "aws" {
-  region = var.region
-}
-
-resource "aws_vpc" "kesava-ecs-vpc" {
+resource "aws_vpc" "betaflux-test-vpc" {
   cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
 
   tags = {
-    Name = "kesava-ecs-VPC"
+    Name = "${var.env}-betaflux-test-VPC"
   }
 }
 
@@ -15,27 +11,27 @@ resource "aws_vpc" "kesava-ecs-vpc" {
 
 resource "aws_subnet" "public-subnet-1" {
   cidr_block        = var.public_subnet-1_cidr
-  vpc_id            = aws_vpc.kesava-ecs-vpc.id
+  vpc_id            = aws_vpc.betaflux-test-vpc.id
   availability_zone = "us-east-1a"
 
   tags = {
-    Name = "public_subnet1"
+    Name = "${var.env}-public_subnet1"
   }
 }
 
 resource "aws_subnet" "public-subnet-2" {
   cidr_block        = var.public_subnet-2_cidr
-  vpc_id            = aws_vpc.kesava-ecs-vpc.id
+  vpc_id            = aws_vpc.betaflux-test-vpc.id
   availability_zone = "us-east-1b"
 
   tags = {
-    Name = "public_subnet2"
+    Name = "${var.env}-public_subnet2"
   }
 }
 
 resource "aws_subnet" "public-subnet-3" {
   cidr_block        = var.public_subnet-3_cidr
-  vpc_id            = aws_vpc.kesava-ecs-vpc.id
+  vpc_id            = aws_vpc.betaflux-test-vpc.id
   availability_zone = "us-east-1c"
 
   tags = {
@@ -47,51 +43,51 @@ resource "aws_subnet" "public-subnet-3" {
 
 resource "aws_subnet" "private-subnet-1" {
   cidr_block        = var.private_subnet-1_cidr
-  vpc_id            = aws_vpc.kesava-ecs-vpc.id
+  vpc_id            = aws_vpc.betaflux-test-vpc.id
   availability_zone = "us-east-1a"
 
   tags = {
-    Name = "private_subnet1"
+    Name = "${var.env}-private_subnet1"
   }
 }
 
 resource "aws_subnet" "private-subnet-2" {
   cidr_block        = var.private_subnet-2_cidr
-  vpc_id            = aws_vpc.kesava-ecs-vpc.id
+  vpc_id            = aws_vpc.betaflux-test-vpc.id
   availability_zone = "us-east-1b"
 
   tags = {
-    Name = "private_subnet2"
+    Name = "${var.env}-private_subnet2"
   }
 }
 
 resource "aws_subnet" "private-subnet-3" {
   cidr_block        = var.private_subnet-3_cidr
-  vpc_id            = aws_vpc.kesava-ecs-vpc.id
+  vpc_id            = aws_vpc.betaflux-test-vpc.id
   availability_zone = "us-east-1c"
 
   tags = {
-    Name = "private_sunet3"
+    Name = "${var.env}-private_sunet3"
   }
 }
 
 ######    Creating public route table    #######
 
 resource "aws_route_table" "public-route-table" {
-  vpc_id = aws_vpc.kesava-ecs-vpc.id
+  vpc_id = aws_vpc.betaflux-test-vpc.id
 
   tags = {
-    Name = "Public-Route-Table"
+    Name = "${var.env}-Public-Route-Table"
   }
 }
 
 ######    Creating private route table    #######
 
 resource "aws_route_table" "private-route-table" {
-  vpc_id = aws_vpc.kesava-ecs-vpc.id
+  vpc_id = aws_vpc.betaflux-test-vpc.id
 
   tags = {
-    Name = "private-Route-Table"
+    Name = "${var.env}-private-Route-Table"
   }
 }
 
@@ -136,7 +132,7 @@ resource "aws_eip" "elastic-ip-for-nat-gw" {
   associate_with_private_ip = "10.0.0.5"
 
   tags = {
-    Name = "kesava-ecs-EIP"
+    Name = "${var.env}-betaflux-test-EIP"
   }
 }
 
@@ -147,7 +143,7 @@ resource "aws_nat_gateway" "nat-gw" {
   subnet_id     = aws_subnet.public-subnet-1.id
 
   tags = {
-    Name = "kesava-ecs -NAT-GW"
+    Name = "${var.env}-betaflux-test -NAT-GW"
   }
 
   depends_on = [aws_eip.elastic-ip-for-nat-gw]
@@ -163,11 +159,11 @@ resource "aws_route" "nat-gw-route" {
 
 ###### Crating  IGW   ########
 
-resource "aws_internet_gateway" "kesava-ecs_igw" {
-  vpc_id = aws_vpc.kesava-ecs-vpc.id
+resource "aws_internet_gateway" "betaflux-test_igw" {
+  vpc_id = aws_vpc.betaflux-test-vpc.id
 
   tags = {
-    Name = "kesava-ecs-IGW"
+    Name = "${var.env}-betaflux-test-IGW"
   }
 }
 
@@ -175,17 +171,17 @@ resource "aws_internet_gateway" "kesava-ecs_igw" {
 
 resource "aws_route" "public-internet-gateway-route" {
   route_table_id         = aws_route_table.public-route-table.id
-  gateway_id             = aws_internet_gateway.kesava-ecs_igw.id
+  gateway_id             = aws_internet_gateway.betaflux-test_igw.id
   destination_cidr_block = "0.0.0.0/0"
 
 }
 
 ###### Crating Security groups   ########
 
-resource "aws_security_group" "kesava-ecs" {
-  name        = "kesava-ecs"
+resource "aws_security_group" "betaflux-test" {
+  name        = "${var.env}-betaflux-test"
   description = "Allow web inbound traffic"
-  vpc_id      = aws_vpc.kesava-ecs-vpc.id
+  vpc_id      = aws_vpc.betaflux-test-vpc.id
 
   ingress {
     description = "HTTPS"
@@ -202,6 +198,6 @@ resource "aws_security_group" "kesava-ecs" {
   }
 
   tags = {
-    Name = "kesava-ecs"
+    Name = "${var.env}-betaflux-test"
   }
 }
