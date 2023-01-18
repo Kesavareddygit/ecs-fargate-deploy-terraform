@@ -1,3 +1,8 @@
+variable "env" {
+  default     = "dev"
+  description = "environment"
+}
+
 variable "region" {
   default     = "us-east-1"
   description = "AWS Region"
@@ -40,13 +45,13 @@ variable "private_subnet-3_cidr" {
 
 variable "ecr_name" {
   description = "ECR name"
-  default     = "kesava-ecs-terraform"
+  default     = "betaflux-test-terraform"
 }
 
-variable "name" {
-  description = "Task Exection Role"
-  default     = "kesava-ecs"
-}
+#variable "name" {
+#  description = "Task Exection Role"
+#  default     = "betaflux-test"
+#}
 
 variable "container_cpu" {
   description = "The number of cpu units used by the task"
@@ -65,5 +70,14 @@ variable "container_image" {
 
 variable "container_port" {
   description = "Port of container"
-  default     = 80
+  default     = 3000
+}
+
+variable "webhook_secret" {
+  default = "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"
+}
+
+variable "service_desired_count" {
+  description = "Number of services running in parallely"
+  default     = 2
 }
