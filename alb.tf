@@ -1,4 +1,4 @@
-resource "aws_lb_target_group" "kesava-ecs_tg" {
+resource "aws_lb_target_group" "betaflux-test-tg" {
   health_check {
     interval            = 10
     path                = "/"
@@ -8,34 +8,34 @@ resource "aws_lb_target_group" "kesava-ecs_tg" {
     unhealthy_threshold = 2
   }
 
-  name                  = "kesava-ecs-tg"
+  name                  = "${var.env}-betaflux-test-tg"
   port                  = 80
   protocol              = "HTTP"
   target_type           = "ip"
-  vpc_id                = aws_vpc.kesava-ecs-vpc.id
+  vpc_id                = aws_vpc.betaflux-test-vpc.id
 }
 
-resource "aws_lb" "kesava-ecs-alb" {
-  name               = "kesava-ecs-alb"
+resource "aws_lb" "betaflux-test-alb" {
+  name               = "${var.env}-betaflux-test-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.kesava-ecs.id]
+  security_groups    = [aws_security_group.betaflux-test.id]
   subnets            = [aws_subnet.public-subnet-1.id,aws_subnet.public-subnet-2.id]
   ip_address_type    = "ipv4"
 
 
   tags = {
-    Name = "kesava-ecs-alb"
+    Name = "${var.env}-betaflux-test-alb"
   }
 }
 
-resource "aws_lb_listener" "carftcms_alb" {
-  load_balancer_arn = aws_lb.kesava-ecs-alb.arn
+resource "aws_lb_listener" "betaflux-test-alb" {
+  load_balancer_arn = aws_lb.betaflux-test-alb.arn
   port              = 80
   protocol          = "HTTP"
 
   default_action {
     type = "forward"
-    target_group_arn = aws_lb_target_group.kesava-ecs_tg.arn
+    target_group_arn = aws_lb_target_group.betaflux-test-tg.arn
   }
 }
