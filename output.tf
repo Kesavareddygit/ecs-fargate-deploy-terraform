@@ -1,5 +1,5 @@
 output "alb_hostname" {
-  value = aws_lb.kesava-ecs-alb.dns_name
+  value = aws_lb.betaflux-test-alb.dns_name
 }
 
 
