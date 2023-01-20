@@ -11,9 +11,10 @@ phases:
   pre_build:
     commands:
       - terraform init
+      - terraform plan -lock=false
   build:
     commands:
-      - terraform plan -lock=false
+      - terraform apply -auto-approve
   post_build:
     commands:
       - echo terraform terraform plan completed on 'date'
