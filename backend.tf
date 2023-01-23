@@ -8,8 +8,8 @@ provider "aws" {
 terraform {
  backend "s3" {
    encrypt        = false
-   bucket         = "tf-bucket-s3-dev"
-   dynamodb_table = "betaflux-test-lock-dynamo"
+   bucket         = "tf-bucket-s3-${ENV}"
+   dynamodb_table = "${ENV}-terraform_state"
    key            = "path/path/terraform-tfstate"
    region         = "us-east-1"
  }
