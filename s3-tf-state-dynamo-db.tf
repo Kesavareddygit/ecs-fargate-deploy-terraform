@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "bucket" {
-    bucket = "tf-bucket-s3-${ENV}"
+    bucket = "${ENV}-tf-bucket-s3"
     versioning {
         enabled = true
     }
