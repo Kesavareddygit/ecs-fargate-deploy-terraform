@@ -10,6 +10,7 @@ terraform {
    encrypt        = false
    bucket         = "tf-bucket-s3-dev"
    key            = "path/path/terraform-tfstate"
+   dynamodb_table = "dev-terraform-state"
    region         = "us-east-1"
  }
 }
