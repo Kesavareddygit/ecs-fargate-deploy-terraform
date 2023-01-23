@@ -21,7 +21,7 @@ resource "aws_s3_bucket" "bucket" {
 
 */
 resource "aws_dynamodb_table" "terraform-lock" {
-    name           = "${env}-terraform-state"
+    name           = "${var.env}-terraform-state"
     read_capacity  = 5
     write_capacity = 5
     hash_key       = "LockID"
