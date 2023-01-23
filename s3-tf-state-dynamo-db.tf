@@ -1,3 +1,4 @@
+/*
 resource "aws_s3_bucket" "bucket" {
     bucket = "${ENV}-tf-bucket-s3"
     versioning {
@@ -18,6 +19,7 @@ resource "aws_s3_bucket" "bucket" {
     }
 }
 
+*/
 resource "aws_dynamodb_table" "terraform-lock" {
     name           = "${ENV}-terraform_state"
     read_capacity  = 5
