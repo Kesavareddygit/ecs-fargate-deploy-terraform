@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
-      - BUCKET_EXISTS=$(aws s3api head-bucket --bucket tf-bucket-s3-dev 2>&1 ||
+      - BUCKET_EXISTS=$(aws s3api head-bucket --bucket rajeshsamudu2520 2>&1 ||
         true)
       - >
         if [ -z "$BUCKET_EXISTS" ]; then 
