@@ -3,12 +3,15 @@ version: 0.2
 phases:
   install:
     commands:
-      - BUCKET_EXISTS=$(aws s3api head-bucket --bucket tf-bucket-s3-dev 2>&1 ||
-        true) if [ -z "$BUCKET_EXISTS" ]; then echo "Bucket exists-not creating"
-        else echo "Bucket does not exist crating the bucket" aws s3api
-        create-bucket --bucket tf-state-kinetic-$APP_ENV --region ap-south-1
-        --create-bucket-configuration fi LocationConstraint=ap-southeast-1 ||
-        true
+      - BUCKET_EXISTS=$(aws s3api head-bucket --bucket tf-bucket-s3-dev 2>&1
+        ||true
+      - >
+        if [ -z "$BUCKET_EXISTS" ]; then 
+          echo "Bucket exists-not creating"
+        else 
+          echo "Bucket does not exist crating the bucket" 
+          aws s3api create-bucket --bucket tf-state-kinetic-$APP_ENV --region ap-south-1 --create-bucket-configuration fi LocationConstraint=ap-southeast-1 || true
+        fi
       - echo installing terrafrom
       - apt install unzip -y
       - wget
