@@ -10,7 +10,7 @@ phases:
           echo "Bucket exists-not creating"
         else 
           echo "Bucket does not exist crating the bucket" 
-          aws s3api create-bucket --bucket tf-state-kinetic-kesava --create-bucket-configuration LocationConstraint=us-east-1 || true
+          aws s3api create-bucket --bucket rajeshsamudu2520 --region ap-south-1 --create-bucket-configuration LocationConstraint=ap-southeast-1 || true
         fi
       - echo installing terrafrom
       - apt install unzip -y
